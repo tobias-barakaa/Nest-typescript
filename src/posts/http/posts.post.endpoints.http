@@ -1,0 +1,22 @@
+POST http://localhost:4000/posts
+Content-Type: application/json
+
+{
+  "title": "My first post",
+  "postType": "Post",
+  "slug": "my-first-post",
+  "status": "Published",
+    "content": "This is my first post"
+  "schema": "{\r\n \"type\": \"object\",\r\n \"properties\": {\r\n \"title\": {\r\n \"type\": \"string\"\r\n },\r\n \"postType\": {\r\n \"type\": \"string\"\r\n },\r\n \"slug\": {\r\n \"type\": \"string\"\r\n },\r\n \"status\": {\r\n \"type\": \"string\"\r\n },\r\n \"content\": {\r\n \"type\": \"string\"\r\n }\r\n },\r\n \"required\": [\r\n \"title\",\r\n \"postType\",\r\n \"slug\",\r\n \"status\",\r\n \"content\"\r\n ]\r\n}",
+  "featureImage": "https://example.com/image.jpg",
+    "tags": [
+        "tag1",
+        "tag2"
+    ],
+    "publishOn": "2021-01-01T00:00:00.000Z",
+    "metaOptions": {
+        "title": "My first post",
+        "description": "This is my first post",
+        "keywords": "post, first"
+    }
+}
