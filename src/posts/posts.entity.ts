@@ -1,8 +1,12 @@
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn,ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { postStatus } from "./enums/postStatus.enum";
-import { CreatePostMetaOptionDto } from "./dtos/create-post-meta-option.dto";
+import { CreatePostMetaOptionDto } from "../meta-options/dtos/create-post-meta-option.dto";
 import { postType } from "./enums/postType.enum";
+import { MetaOptions } from "src/meta-options/meta-options.entity";
+import { User } from "src/users/user.entity";
+import { Tag } from "src/tags/tag.entity";
+import { JoinTable } from "typeorm";
 
 
 @Entity()
@@ -66,8 +70,13 @@ export class Posts{
     @Column({
 
     })
-    tags: string;
-    metaOptions: CreatePostMetaOptionDto[];
+
+    @OneToOne(() => MetaOptions, (metaOptions) => metaOptions.post,{
+        cascade: true,
+        eager: true,
+    })
+    metaOptions?: MetaOptions;
+
     featuredImage?: string;
     @Column({
         type: 'timestamp',
@@ -76,6 +85,15 @@ export class Posts{
         update: false,  // Don't allow createdAt to be updated after creation.
     })
     publishOn: boolean;
+
+    @ManyToOne(() => User, (user) => user.posts, {
+        eager: true,
+    })
+    author: User;
+
+    @ManyToMany(() => Tag, (tag) => tag.posts)
+    @JoinTable()
+    tags?: Tag[];
 
     
 }

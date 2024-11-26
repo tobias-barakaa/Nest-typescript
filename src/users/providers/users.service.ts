@@ -4,12 +4,21 @@ import { AuthService } from 'src/auth/providers/auth.service';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+
+
 @Injectable()
 export class UsersService{
     constructor(
         // injecting auth service
         @InjectRepository(User)
-        private usersRepository: Repository<User>
+        private usersRepository: Repository<User>,
+
+        /**
+         * injecting config service
+         * 
+         */
+        private readonly configService: ConfigService,
     ) {}
 
     public async createUser(createUserDto: CreateUserDto) {
@@ -20,6 +29,7 @@ export class UsersService{
             }
         })
 
+    
         // if user exist handle exception
 
         // create a new user
@@ -29,63 +39,8 @@ export class UsersService{
         return newUser;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public findAll(getUserParamDto: CreateUserDto,
-        limit: number,
-        page: number
-    ) {
-        return [
-            {
-                firstName: 'John',
-                lastName: 'Doe',
-            },
-            {
-                firstName: 'Jane',
-                lastName: 'Doe',
-            },
-        ]
+    public async findOneById(id: number) {
+        return await this.usersRepository.findOne({ where: { id } });
     }
+}  
 
-
-    // find a user by Id
-
-    public findOneById(id: number) {
-        return {
-            id: 123,
-            firstName: "John",
-            email: "alice@gmail.com",
-        }
-    }
-    public isAth() {
-        return true;
-    }
-}
